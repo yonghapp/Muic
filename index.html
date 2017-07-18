@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<title>音乐贺卡</title>
 </head>
 <style>
@@ -25,8 +26,8 @@ html,body{ height: 100%;overflow: hidden;}
 }
 .page{ height: 100%; width: 100%; position: absolute;}
 #page1{ display: block;}
-#page2{ display: block;transition: .5s}
-#page3{ display: block;transition: .5s}
+#page2{ display: none;transition: .5s}
+#page3{ display: none;transition: .5s}
 
 
 .page .bg{ width: 100%; height: 100%; position: absolute; z-index: -1;}
@@ -51,7 +52,19 @@ html,body{ height: 100%;overflow: hidden;}
 
 
 #page2.fadeOut{
+	opacity: .3;
 	transform: translate(0,-100%);
+}
+#page2 > .p2_bg_loading{z-index: 4;background: #ef1639;
+	animation: p2_bg_loading 1s linear forwards;
+}
+@keyframes p2_bg_loading{
+	0%{
+		opacity: 1;
+	}
+	100%{
+		opacity: 0;
+	}
 }
 #page2 .bg{ background: url("p2_bg.jpg") no-repeat center ; background-size:100% ;}
 
@@ -102,8 +115,8 @@ html,body{ height: 100%;overflow: hidden;}
 
 #page3 .bg{ background: url("p3_bg.jpg") no-repeat center ; background-size:100% ;}
 #page3.fadeIn{
-	transform: translate(0,-200%);
-	display: block;
+	transform: translate(0,-100%);
+
 }
 #page3  .p3_logo{ position: absolute; width: 34.687vw; height: 6.327vh; top:7.8vh; right:0 ; left: 0; margin: auto; background: url("p3_logo.png")no-repeat center ;  background-size:100% ;}
 #page3 .p3_title{ position: absolute; width: 48.125vw; height: 50vh; top:0; right:0 ; left: 0; bottom:0; margin: auto; background: url("p3_title.png")no-repeat center ; background-size:100% ; }
@@ -138,6 +151,7 @@ animation: p3_f 1s linear infinite ;
           <div class="dl_tt">2017年 贺喜新春</div>	
 	</div>
 	<div class="page" id="page2">
+		  <div class="p2_bg_loading"></div>
           <div class="bg"></div>
           <div class="p2_circle"></div>
           <div class="p2_2016"></div>
@@ -166,28 +180,11 @@ animation: p3_f 1s linear infinite ;
 
  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
  <script type="text/javascript">
- $("#page1").css("top","0");
- $("#page2").css("top","100%");
- $("#page3").css("top","200%");
-
-
   $("#music").on("touchstart",function(){
   	  var audio=$("#audio")[0]
 	if(audio.paused){
 	  audio.play();
       $("#pic_c").addClass("pic_c");
-      setTimeout(function(){
-			$("#page2").addClass("fadeOut");
-			$("#page1").hide();
-			$("#page2").show();
-			$("#page3").hide();
-   		},5000);
-      setTimeout(function(){
-			$("#page3").slideDown();
-			$("#page1").hide();
-   			$("#page2").hide();
-   			$("#page3").addClass("fadeIn");
-   		},10000)
 	}else {
 		audio.pause();
 		$("#pic_c").removeClass("pic_c")
@@ -199,6 +196,18 @@ animation: p3_f 1s linear infinite ;
   	$("#pic_c").removeClass("pic_c")
   },false);
   
+//点击 翻页
+  $("#page1")[0].addEventListener("touchstart",function(){
+  	$("#page1").hide();
+  	$("#page2").show();
+  	$("#page3").show();
+  	$("#page3").css("top","100%")
+  	setTimeout(function(){
+  		$("#page2").addClass("fadeOut");
+  		$("#page3").addClass("fadeIn");
+  	},6000)
+  	
+  })
  </script>
 </body>
 </html>
